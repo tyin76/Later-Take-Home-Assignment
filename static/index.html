@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Later · Projects workbench</title>
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <div class="shell">
+    <aside class="sidebar">
+      <a class="brand" href="/"><span class="brand-mark">L</span><span>Later <small>PROJECTS</small></span></a>
+      <nav aria-label="Main navigation">
+        <button class="nav active" data-view="overview"><span>◫</span> Overview</button>
+        <button class="nav" data-view="projects"><span>☷</span> Projects</button>
+        <button class="nav" data-view="automations"><span>↗</span> Automations</button>
+        <button class="nav" data-view="ai"><span>✳</span> AI tools</button>
+      </nav>
+      <div class="sidebar-bottom"><span class="live-dot"></span> Live Projects API<br><small>Local workbench · data resets upstream</small></div>
+    </aside>
+    <main>
+      <header class="topbar"><span id="crumb">Overview</span><div><span id="last-updated"></span><button id="refresh" class="icon-button" title="Refresh" aria-label="Refresh">↻</button></div></header>
+      <div class="content">
+        <section id="overview-view" class="view">
+          <div class="intro"><div><div class="eyebrow">TEAM WORKSPACE</div><h1>What needs attention?</h1><p>A live view across every project and its tasks.</p></div><a class="button secondary" href="/api/summary.md" target="_blank">Open weekly brief ↗</a></div>
+          <div id="metrics" class="metrics"></div>
+          <div class="section-head"><h2>Projects at a glance</h2><span>Sorted by attention needed</span></div>
+          <div id="overview-projects" class="project-grid"></div>
+          <p class="footnote">“Updated this week” uses the API’s latest timestamp. The API has no change history.</p>
+        </section>
+        <section id="projects-view" class="view hidden">
+          <div class="intro"><div><div class="eyebrow">PROJECTS</div><h1>All projects</h1><p>Open a project to review and update tasks.</p></div></div>
+          <div class="toolbar"><input id="search" type="search" placeholder="Search projects or tasks" aria-label="Search projects or tasks"><select id="status-filter" aria-label="Filter projects"><option value="">All projects</option><option value="overdue">Has overdue tasks</option><option value="blocked">Blocked</option><option value="wip">In progress</option><option value="kickoff">Kickoff</option><option value="wrapped">Wrapped</option><option value="dropped">Dropped</option></select></div>
+          <div id="all-projects" class="project-grid"></div>
+        </section>
+        <section id="automations-view" class="view hidden">
+          <div class="eyebrow">FOR ANDY</div><h1>Connect your automations</h1><p class="lead">Use an HTTP request step in Zapier, Make, n8n, or Gumloop whenever a trigger fires.</p>
+          <div class="guide"><div class="step">01</div><div><h3>Choose the task</h3><p>Open a project and click <strong>Copy automation URL</strong> below the task. Paste that URL into the HTTP request action in Zapier, Make, n8n, or Gumloop. <strong>Copy curl test</strong> provides a runnable Terminal check.</p></div></div>
+          <div class="guide"><div class="step">02</div><div><h3>Set the request</h3><p>Use method POST, header <code>Content-Type: application/json</code>, and this JSON body:</p><pre>{"flag":"yes"}</pre></div></div>
+          <div class="guide"><div class="step">03</div><div><h3>Optional local name lookup</h3><p>Local automations can send exact project and task names to <code id="webhook-url"></code>. Repeated events return <code>already_complete: true</code>. Cloud tools need a tunnel for this optional local endpoint.</p></div></div>
+        </section>
+        <section id="ai-view" class="view hidden">
+          <div class="eyebrow">FOR DAN</div><h1>Talk to your projects</h1><p class="lead">The included MCP server gives an LLM five focused tools. Add it to an MCP-capable chat client, then ask for updates or changes in plain language.</p>
+          <div class="guide"><div class="step">✳</div><div><h3>Tools available</h3><p><code>list_projects</code>, <code>get_project</code>, <code>list_overdue</code>, <code>add_todo</code>, and <code>mark_todo</code>.</p></div></div>
+          <div class="guide"><div class="step">⌘</div><div><h3>Run locally</h3><pre>python3 /path/to/Later/mcp_server.py</pre><p>See README.md for an MCP client configuration and example prompts.</p></div></div>
+        </section>
+      </div>
+    </main>
+  </div>
+  <div id="drawer-backdrop" class="backdrop hidden"></div>
+  <aside id="drawer" class="drawer hidden" role="dialog" aria-modal="true" aria-label="Project details"><button id="close-drawer" class="close" aria-label="Close">×</button><div id="drawer-content"></div></aside>
+  <div id="toast" role="status" aria-live="polite"></div>
+  <script src="/app.js"></script>
+</body>
+</html>
